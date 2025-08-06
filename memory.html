@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/memorystyle.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom border-3 bg-color-secondary">
+            <div class="container-fluid">
+                <a class="navbar-brand fw" href="#">Photos</a>
+
+                <!-- Upload Icon Button -->
+                <button type="button" class="btn p-0 border-0 bg-transparent" onclick="toggleUploadForm()">
+                    <i class="bi bi-cloud-arrow-up-fill fs-3"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container-wrapper d-none" id="uploadFormContainer">
+        <form id="uploadForm" enctype="multipart/form-data">
+            <h3 class="text-center mb-3"> Upload</h3>
+
+            <!-- Upload Box for Image/Video -->
+            <!-- <div class=" w-75 upload-box mb-4 d-flex flex-column m-auto border rounded">
+                <h5>Drop photo/video to upload</h5>
+                <div class="dropzone">
+                    <img src="http://100dayscss.com/codepen/upload.svg" class="upload-icon" />
+                    <input type="file" class="upload-input" name="media" accept="image/*,video/*,audio/*" required />
+                </div>
+            </div> -->
+
+            <!-- Tags -->
+            <div class="form-section">
+                <label for="ImageUrl" class="form-label">Tags</label>
+                <input type="text" class="form-control" name="tags" id="tags"
+                    placeholder="Enter Image URL ">
+            </div>
+            <div class="form-section">
+                <label for="tags" class="form-label">Tags</label>
+                <input type="text" class="form-control" name="tags" id="tags"
+                    placeholder="Enter tags (comma separated)">
+            </div>
+            <!-- Voice note input -->
+            <label for="voiceNote" class="form-label">Voice Note</label>
+            <input type="file" class="form-control" id="voiceNote" accept="audio/*">
+
+            <!-- Location -->
+            <div class="form-section">
+                <label for="locationField" class="form-label">Location</label>
+                <input type="text" class="form-control" name="location" id="location" readonly
+                    placeholder="Fetching location...">
+                <input type="hidden" id="latitude" name="latitude">
+                <input type="hidden" id="longitude" name="longitude">
+            </div>
+
+            <!-- Timestamp (hidden) -->
+            <input type="hidden" name="timestamp" id="timestampField">
+
+            <!-- Submit -->
+            <div class="form-section text-center">
+                <button type="submit" class="btn btn-upload mt-3">Upload</button>
+            </div>
+        </form>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+    <script src="js/memoryscript.js"></script>
+</body>
+
+</html>

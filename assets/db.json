@@ -1,0 +1,42 @@
+{
+  "users": {
+    "uid1": {
+      "name": "John Doe",
+      "email": "john@example.com"
+    },
+    "uid2": {
+      "name": "Jane Smith",
+      "email": "jane@example.com"
+    }
+  },
+  "memories": {
+    "memory1": {
+      "title": "Trip to Goa",
+      "imageUrl": "...",
+      "location": "Goa Beach",
+      "date": "2025-08-07",
+      "userId": "uid1"
+    },
+    "memory2": {
+      "title": "College Farewell",
+      "imageUrl": "...",
+      "location": "Delhi University",
+      "date": "2025-07-01",
+      "userId": "uid1"
+    },
+    "memory3": {
+      "title": "Birthday Celebration",
+      "imageUrl": "...",
+      "location": "Mumbai",
+      "date": "2025-06-15",
+      "userId": "uid2"
+    },
+    "memory4": {
+      "title": "Trekking Trip",
+      "imageUrl": "...",
+      "location": "Manali",
+      "date": "2025-05-10",
+      "userId": "uid2"
+    }
+  }
+}
