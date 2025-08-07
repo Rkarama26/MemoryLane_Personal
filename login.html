@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="main">
+
+        <!-- Sing in  Form -->
+        <section class="sign-in">
+            <div class="container">
+                <div class="signin-content">
+                    <div class="signin-image">
+                        <figure><img src="images/signin-image.jpg" alt="sing up image"></figure>
+                        <a href="signup.html" class="signup-image-link">Create an account</a>
+                    </div>
+
+                    <div class="signin-form">
+                        <h2 class="form-title">Sign in</h2>
+
+                        <div class="alert alert-danger d-none" id="status-alert" role="alert">
+                            <!-- Error message will go here -->
+                        </div>
+                        <form method="POST" class="register-form" id="login-form">
+                            <div class="form-group">
+                                <label for="email"><i class="zmdi zmdi-email"></i></label>
+                                <input type="email" name="email" id="loginEmail" placeholder="Your Email" />
+                            </div>
+                            <div class="form-group">
+                                <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="password" id="loginPassword" placeholder="Password" />
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
+                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember
+                                    me</label>
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="submit" name="signin" id="signin" class="form-submit" value="Log in" />
+                            </div>
+                        </form>
+                        <!-- <div class="social-login">
+                            <span class="social-label">Or login with</span>
+                            <ul class="socials">
+                                <li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
+                                <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
+                                <li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
+                            </ul>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+    <!-- JS -->
+    <script>
+
+
+        const firebaseURL = "https://memory-lane-9e674-default-rtdb.asia-southeast1.firebasedatabase.app/users.json"; // Replace with your actual DB URL
+       
+        document.getElementById("login-form").addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const email = document.getElementById("loginEmail").value;
+            const password = document.getElementById("loginPassword").value;
+            const rememberMe = document.getElementById("remember-me").checked;
+
+            try {
+                const response = await fetch(firebaseURL);
+                const data = await response.json();
+
+                // Convert the data into an array of user objects with id
+                const users = Object.entries(data).map(([id, user]) => ({
+                    id,
+                    ...user
+                }));
+
+                console.log("Fetched users:", users);
+
+                let isAuthenticated = false;
+                let authenticatedUser = null;
+
+                // Loop to check credentials
+                for (let user of users) {
+                    if (user.email === email && user.password === password) {
+                        isAuthenticated = true;
+                        authenticatedUser = user;
+                        break;
+                    }
+                }
+
+                if (isAuthenticated && authenticatedUser) {
+                    const storage = rememberMe ? localStorage : sessionStorage;
+                    storage.setItem("user", JSON.stringify(authenticatedUser));
+                    console.log("User authenticated:", authenticatedUser);
+                    console.log("Redirecting to memory.html");
+                     window.location.href = "memory.html"; // Uncomment to redirect
+                    document.getElementById("status-alert").classList.add("d-none");
+                } else {
+                    const alertDiv = document.getElementById("status-alert");
+                    alertDiv.classList.remove("d-none");
+                    alertDiv.textContent = "Invalid email or password!";
+                }
+
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        });
+    </script>
+</body>
+
+</html>

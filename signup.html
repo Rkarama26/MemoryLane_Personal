@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="main">
+
+        <!-- Sign up form -->
+        <section class="signup">
+            <div class="container">
+                <div class="signup-content">
+                    <div class="signup-form">
+                        <h2 class="form-title">Sign up</h2>
+                        <div class="alert alert-danger d-none" id="signup-alert" role="alert">
+                            <!-- Error message will go here -->
+                        </div>
+
+
+                        <form method="POST" class="register-form" id="register-form">
+                            <div class="form-group">
+                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="name" id="name" placeholder="Your Name" />
+                            </div>
+                            <div class="form-group">
+                                <label for="email"><i class="zmdi zmdi-email"></i></label>
+                                <input type="email" name="email" id="email" placeholder="Your Email" />
+                            </div>
+                            <div class="form-group">
+                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="password" id="password" placeholder="Password" />
+                            </div>
+                            <div class="form-group">
+                                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                                <input type="password" name="re_password" id="re_password"
+                                    placeholder="Repeat your password" />
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
+                                <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all
+                                    statements in <a href="#" class="term-service">Terms of service</a></label>
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="signup-image">
+                        <figure><img src="images/signup-image.jpg" alt="sing up image"></figure>
+                        <a href="login.html" class="signup-image-link">I am already member</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+
+    <!-- JS -->
+    <script>
+        const firebaseURL = "https://memory-lane-9e674-default-rtdb.asia-southeast1.firebasedatabase.app/users.json"; // Replace with your actual DB URL
+
+        document.getElementById("register-form").addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value;
+            const rePassword = document.getElementById("re_password").value;
+            const agree = document.getElementById("agree-term").checked;
+            const signupAlert = document.getElementById("signup-alert");
+
+            signupAlert.classList.add("d-none");
+            signupAlert.textContent = "";
+
+
+            // Example validation for empty fields or password mismatch
+            if (!name || !email || !password || !rePassword) {
+                signupAlert.classList.remove("d-none");
+                signupAlert.textContent = "Please fill all fields.";
+                return;
+            }
+
+            if (password !== rePassword) {
+                signupAlert.classList.remove("d-none");
+                signupAlert.textContent = "Passwords do not match.";
+                return;
+            }
+
+            if (!agree) {
+                signupAlert.classList.remove("d-none");
+                signupAlert.textContent = "You must agree to the terms of service.";
+                return;
+            }
+
+
+            const newUser = { name, email, password };
+            console.log(newUser)
+
+            try {
+                const response = await fetch(firebaseURL, {
+                    method: "POST",
+                    body: JSON.stringify(newUser),
+                    headers: { "Content-Type": "application/json" }
+                });
+
+                if (response.ok) {
+                    alert("Signup successful!");
+                    window.location.href = "login.html"; // Redirect to login page
+                }
+                else {
+                    signupAlert.classList.remove("d-none");
+                    signupAlert.textContent = "Signup failed. Please try again.";
+                }
+
+            } catch (error) {
+                signupAlert.classList.remove("d-none");
+                signupAlert.textContent = "Something went wrong. Try again later.";
+                console.error("Error:", error);
+            }
+        });
+
+
+    </script>
+</body>
+
+</html>
