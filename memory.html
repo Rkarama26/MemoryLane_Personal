@@ -13,14 +13,34 @@
 
 <body>
     <header>
+
         <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom border-3 bg-color-secondary">
             <div class="container-fluid">
-                <a class="navbar-brand fw" href="#">Photos</a>
+                <a class="navbar-brand fw-bold" href="#">Photos</a>
 
-                <!-- Upload Icon Button -->
-                <button type="button" class="btn p-0 border-0 bg-transparent" onclick="toggleUploadForm()">
-                    <i class="bi bi-cloud-arrow-up-fill fs-3"></i>
-                </button>
+                <!-- Container with Upload Icon and Profile Dropdown -->
+                <div class="d-flex align-items-center ms-auto gap-3">
+                    <!-- Upload Icon Button -->
+                    <button type="button" id="uploadIconButton" class="btn p-0 border-0 bg-transparent">
+                        <i class="bi bi-cloud-arrow-up-fill fs-3"></i>
+                    </button>
+
+                    <!-- Profile Dropdown Without Caret -->
+                    <div class="dropdown">
+                        <div class="profile-icon" id="profileDropdown" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            R
+                        </div>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><button class="dropdown-item" id="logoutBtn">Logout</button></li>
+                        </ul>
+                    </div>
+                </div>
+
+
+
+
             </div>
         </nav>
     </header>
@@ -40,10 +60,10 @@
 
             <!-- Tags -->
             <div class="form-section">
-                <label for="ImageUrl" class="form-label">Tags</label>
-                <input type="text" class="form-control" name="tags" id="tags"
-                    placeholder="Enter Image URL ">
+                <label for="ImageUrl" class="form-label">ImageUrl</label>
+                <input type="text" class="form-control" name="ImageUrl" id="ImageUrl" placeholder="Enter Image URL ">
             </div>
+            
             <div class="form-section">
                 <label for="tags" class="form-label">Tags</label>
                 <input type="text" class="form-control" name="tags" id="tags"
@@ -56,20 +76,32 @@
             <!-- Location -->
             <div class="form-section">
                 <label for="locationField" class="form-label">Location</label>
-                <input type="text" class="form-control" name="location" id="location" readonly
+                <input type="text" class="form-control" name="location" id="location"
                     placeholder="Fetching location...">
                 <input type="hidden" id="latitude" name="latitude">
                 <input type="hidden" id="longitude" name="longitude">
             </div>
 
-            <!-- Timestamp (hidden) -->
-            <input type="hidden" name="timestamp" id="timestampField">
+            <div class="mb-3">
+                <label for="timestampField" class="form-label">Select Date of Memory</label>
+                <input type="date" class="form-control" id="timestampField" name="timestamp" required>
+            </div>
 
             <!-- Submit -->
             <div class="form-section text-center">
                 <button type="submit" class="btn btn-upload mt-3">Upload</button>
             </div>
         </form>
+    </div>
+
+    <section id="timeline">
+        <h2>📸 Memory Timeline</h2>
+        <div id="timelineContainer"></div>
+
+    </section>
+
+    <div>
+        <button onclick="fetchMemories()">Fetch Memories</button>
     </div>
 
 
