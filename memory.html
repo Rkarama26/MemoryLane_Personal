@@ -4,28 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="css/memorystyle.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/galleryStyle.css">
 </head>
-
+ 
 <body>
     <header>
 
-        <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom border-3 bg-color-secondary">
-            <div class="container-fluid">
-                <a class="navbar-brand fw-bold" href="#">Photos</a>
+        <nav class="navbar navbar-expand-lg border-bottom border-3 rounded-pill  w-100 m-auto mt-3 px-3 nav">
+            <div class="container-fluid d-flex justify-content-between align-items-center h-100">
 
-                <!-- Container with Upload Icon and Profile Dropdown -->
-                <div class="d-flex align-items-center ms-auto gap-3">
+                <!-- Navbar Brand -->
+                <a class="navbar-brand fw-bold mb-0 h-100 d-flex align-items-center " href="#">Photos</a>
+
+                <!-- Right Side: Upload Button + Profile Icon -->
+                <div class="d-flex align-items-center gap-3 h-100">
+
                     <!-- Upload Icon Button -->
                     <button type="button" id="uploadIconButton" class="btn p-0 border-0 bg-transparent">
                         <i class="bi bi-cloud-arrow-up-fill fs-3"></i>
                     </button>
 
-                    <!-- Profile Dropdown Without Caret -->
+                    <!-- Profile Dropdown -->
                     <div class="dropdown">
                         <div class="profile-icon" id="profileDropdown" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
@@ -36,13 +41,12 @@
                             <li><button class="dropdown-item" id="logoutBtn">Logout</button></li>
                         </ul>
                     </div>
+
                 </div>
-
-
-
 
             </div>
         </nav>
+
     </header>
 
     <div class="container-wrapper d-none" id="uploadFormContainer">
@@ -63,7 +67,7 @@
                 <label for="ImageUrl" class="form-label">ImageUrl</label>
                 <input type="text" class="form-control" name="ImageUrl" id="ImageUrl" placeholder="Enter Image URL ">
             </div>
-            
+
             <div class="form-section">
                 <label for="tags" class="form-label">Tags</label>
                 <input type="text" class="form-control" name="tags" id="tags"
@@ -94,15 +98,99 @@
         </form>
     </div>
 
-    <section id="timeline">
-        <h2>📸 Memory Timeline</h2>
-        <div id="timelineContainer"></div>
-
-    </section>
-
     <div>
         <button onclick="fetchMemories()">Fetch Memories</button>
     </div>
+
+    <section id="gallerySection">
+        <div class="gallery" id="gallery">
+            <div class="gallery-item">
+                <div class="content"><img src="https://picsum.photos/200/300" alt=""></div>
+            </div>
+            <div class="gallery-item">
+                <div class="content"><img src="https://picsum.photos/200/320" alt=""></div>
+            </div>
+            <div class="gallery-item">
+                <div class="content"><img src="https://picsum.photos/400/300" alt=""></div>
+            </div>
+            <div class="gallery-item">
+                <div class="content"><img src="https://picsum.photos/200/200" alt=""></div>
+            </div>
+            <div class="gallery-item">
+                <div class="content"><img src="https://picsum.photos/500/300" alt=""></div>
+            </div>
+            <div class="gallery-item">
+                <div class="content"><img src="https://picsum.photos/250/300" alt=""></div>
+            </div>
+            <div class="gallery-item">
+                <div class="content"><img src="https://picsum.photos/200/250" alt=""></div>
+            </div>
+            <div class="gallery-item">
+                <div class="content"><img src="https://picsum.photos/120/150" alt=""></div>
+            </div>
+            <div class="gallery-item">
+                <div class="content"><img src="https://picsum.photos/200/301" alt=""></div>
+            </div>
+            <div class="gallery-item">
+                <div class="content"><img src="https://picsum.photos/200/302" alt=""></div>
+            </div>
+            <div class="gallery-item">
+                <div class="content"><img src="https://picsum.photos/200/303" alt=""></div>
+            </div>
+            <div class="gallery-item">
+                <div class="content"><img src="https://picsum.photos/200/304" alt=""></div>
+            </div>
+            <div class="gallery-item">
+                <div class="content"><img src="https://picsum.photos/200/305" alt=""></div>
+            </div>
+            <div class="gallery-item">
+                <div class="content"><img src="https://picsum.photos/200/306" alt=""></div>
+            </div>
+            <div class="gallery-item">
+                <div class="content"><img src="https://picsum.photos/200/307" alt=""></div>
+            </div>
+            <div class="gallery-item">
+                <div class="content"><img src="https://picsum.photos/200/308" alt=""></div>
+            </div>
+            <div class="gallery-item">
+                <div class="content"><img src="https://picsum.photos/200/309" alt=""></div>
+            </div>
+            <div class="gallery-item">
+                <div class="content"><img src="https://picsum.photos/200/310" alt=""></div>
+            </div>
+            <div class="gallery-item">
+                <div class="content"><img src="https://picsum.photos/200/290" alt=""></div>
+            </div>
+            <div class="gallery-item">
+                <div class="content"><img src="https://picsum.photos/200/299" alt=""></div>
+            </div>
+            <div class="gallery-item">
+                <div class="content"><img src="https://picsum.photos/200/230" alt=""></div>
+            </div>
+            <div class="gallery-item">
+                <div class="content"><img src="https://picsum.photos/200/298" alt=""></div>
+            </div>
+            <div class="gallery-item">
+                <div class="content"><img src="https://picsum.photos/200/297" alt=""></div>
+            </div>
+            <div class="gallery-item">
+                <div class="content"><img src="https://picsum.photos/200/296" alt=""></div>
+            </div>
+            <div class="gallery-item">
+                <div class="content"><img src="https://picsum.photos/200/312" alt=""></div>
+            </div>
+        </div>
+
+
+
+
+
+
+    </section>
+
+
+
+
 
 
 
@@ -117,6 +205,9 @@
         integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
         crossorigin="anonymous"></script>
     <script src="js/memoryscript.js"></script>
+    <script src="js/gallery.js"></script>
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+
 </body>
 
 </html>

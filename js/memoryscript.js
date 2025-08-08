@@ -156,7 +156,7 @@ async function fetchMemories() {
     }
 }
 
-/*
+
 function displayMemories(memories) {
     const timelineContainer = document.getElementById("timelineContainer");
     timelineContainer.innerHTML = ""; // Clear previous content
@@ -178,4 +178,3 @@ function displayMemories(memories) {
         timelineContainer.appendChild(memoryDiv);
     });
 }
-*/

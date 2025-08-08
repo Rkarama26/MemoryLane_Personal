@@ -27,7 +27,7 @@
                 <div class="signin-content">
                     <div class="signin-image">
                         <figure><img src="images/signin-image.jpg" alt="sing up image"></figure>
-                        <a href="signup.html" class="signup-image-link">Create an account</a>
+                        <a href="index.html" class="signup-image-link">Create an account</a>
                     </div>
 
                     <div class="signin-form">
@@ -77,7 +77,7 @@
 
 
         const firebaseURL = "https://memory-lane-9e674-default-rtdb.asia-southeast1.firebasedatabase.app/users.json"; // Replace with your actual DB URL
-       
+
         document.getElementById("login-form").addEventListener("submit", async function (e) {
             e.preventDefault();
 
@@ -114,7 +114,7 @@
                     storage.setItem("user", JSON.stringify(authenticatedUser));
                     console.log("User authenticated:", authenticatedUser);
                     console.log("Redirecting to memory.html");
-                     window.location.href = "memory.html"; // Uncomment to redirect
+                    window.location.href = "memory.html"; // Uncomment to redirect
                     document.getElementById("status-alert").classList.add("d-none");
                 } else {
                     const alertDiv = document.getElementById("status-alert");
