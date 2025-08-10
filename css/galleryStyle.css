@@ -196,7 +196,6 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   pointer-events: none;
-  /* so it doesn't block hover */
 }
 
 .gallery-item .content:hover .tag-overlay {

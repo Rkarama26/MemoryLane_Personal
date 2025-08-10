@@ -1,5 +1,112 @@
+@media (max-width: 576px) {
+        .profile-icon {
+            display: none !important;
+        }
+        .search-container {
+            padding-left: 15px;
+        }
+}
+@media (max-width: 991px) {
+    .sidebar.open ~ .sidebar-menu-btn,
+    .sidebar-menu-btn.hide-when-sidebar-open {
+        display: none !important;
+    }
+}
+/* Sidebar mobile menu button */
+.sidebar-menu-btn {
+    position: fixed;
+    top: 18px;
+    left: 12px;
+    margin-right: 0rem;
+    z-index: 2100;
+    background: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.sidebar-menu-btn:active {
+    background: #f0f0f0;
+}
+.sidebar-menu-icon {
+    display: block;
+    width: 22px;
+    height: 3px;
+    background: #333;
+    border-radius: 2px;
+    position: relative;
+}
+.sidebar-menu-icon::before,
+.sidebar-menu-icon::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 22px;
+    height: 3px;
+    background: #333;
+    border-radius: 2px;
+    transition: 0.2s;
+}
+.sidebar-menu-icon::before {
+    top: -7px;
+}
+.sidebar-menu-icon::after {
+    top: 7px;
+}
+
+@media (min-width: 992px) {
+    .sidebar-menu-btn {
+        display: none !important;
+    }
+}
+
+/* Sidebar slide-in for mobile */
+@media (max-width: 991px) {
+        #sidebar-container.sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 100vw;
+            max-width: 320px;
+            min-width: 220px;
+            background: #fff;
+            z-index: 2050;
+            box-shadow: 2px 0 16px rgba(0,0,0,0.12);
+            transform: translateX(-100%);
+            transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+            will-change: transform;
+            display: block;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        body {
+            overflow-x: hidden;
+        }
+    #sidebar-container.sidebar.open {
+        transform: translateX(0);
+    }
+    .sidebar-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,0.18);
+        z-index: 2040;
+        display: none;
+    }
+    .sidebar-backdrop.active {
+        display: block;
+    }
+}
 .upload-overlay {
-    /* ...existing styles... */
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s;
@@ -9,7 +116,6 @@
     pointer-events: auto;
 }
 .upload-modal {
-    /* ...existing styles... */
     transform: translateY(-40px) scale(0.98);
     opacity: 0;
     transition: transform 0.35s cubic-bezier(.4,0,.2,1), opacity 0.35s cubic-bezier(.4,0,.2,1);
@@ -18,7 +124,7 @@
     transform: translateY(0) scale(1);
     opacity: 1;
 }
-/* Upload overlay modal styles */
+/* Upload form overlay modal styles */
 .upload-overlay {
     position: fixed;
     top: 0;

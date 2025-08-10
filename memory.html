@@ -25,7 +25,8 @@
                 <div class="d-flex align-items-center gap-3 flex-grow-1">
                     <a class="navbar-brand fw-bold mb-0 h-100 d-flex align-items-center me-2" href="#">Photos</a>
                     <div class="search-container flex-grow-1">
-                        <input type="text" class="form-control search-input" placeholder="Search..." style="border-radius: 50px;">
+                        <input type="text" class="form-control search-input" placeholder="Search..."
+                            style="border-radius: 50px;">
                     </div>
                 </div>
                 <!-- Right Side: Upload Button + Profile Icon -->
@@ -57,7 +58,7 @@
     </header>
 
 
-    <!-- upload overlay modal -->
+    <!-- upload overlay form-->
     <div class="upload-overlay d-none" id="uploadOverlay">
         <div class="upload-modal">
             <button class="close-btn" id="closeUploadModal" aria-label="Close">&times;</button>
@@ -66,7 +67,8 @@
                 <!-- Tags -->
                 <div class="form-section">
                     <label for="ImageUrl" class="form-label">ImageUrl</label>
-                    <input type="text" class="form-control" name="ImageUrl" id="ImageUrl" placeholder="Enter Image URL ">
+                    <input type="text" class="form-control" name="ImageUrl" id="ImageUrl"
+                        placeholder="Enter Image URL ">
                 </div>
                 <div class="form-section">
                     <label for="tags" class="form-label">Tags</label>
@@ -97,6 +99,14 @@
     </div>
 
 
+    <!-- Sidebar menu button for mobile -->
+    <button id="sidebarMenuBtn" class="sidebar-menu-btn d-lg-none" aria-label="Open menu">
+        <span class="sidebar-menu-icon"></span>
+    </button>
+
+    <!-- Sidebar backdrop for mobile -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
     <div id="container" class="mt-3">
         <!-- sidebar container -->
         <div id="sidebar-container" class="sidebar">
@@ -122,12 +132,10 @@
                 <!-- Timeline -->
                 <li class="sidebar__item" onclick="switchSection('timeline')"> <a class="sidebar__link" href="#"
                         data-tooltip="Timeline"> <span class="icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-calendar4-range" viewBox="0 0 16 16">
-                                <path
-                                    d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 2a1 1 0 0 0-1 1v1h14V3a1 1 0 0 0-1-1zm13 3H1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z" />
-                                <path
-                                    d="M9 7.5a.5.5 0 0 1 .5-.5H15v2H9.5a.5.5 0 0 1-.5-.5zm-2 3v1a.5.5 0 0 1-.5.5H1v-2h5.5a.5.5 0 0 1 .5.5" />
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                class="bi bi-list" viewBox="0 0 16 16">
+                                <path 
+                                    d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
                             </svg> </span> <span class="text">Timeline</span>
                     </a>
                 </li>
@@ -179,7 +187,8 @@
                                 <path
                                     d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
                             </svg> </span> <span class="text">Settings</span> </a> </li>
-                <li class="sidebar__item"> <a class="sidebar__link" href="#" data-tooltip="Logout"> <span class="icon">
+                <li class="sidebar__item"> <a class="sidebar__link" href="#" onclick="handleLogout()"
+                        data-tooltip="Logout"> <span class="icon">
                             <svg width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right"
                                 viewBox="0 0 16 16">
                                 <path fill-rule="evenodd"
@@ -193,14 +202,14 @@
         <!-- main containers -->
         <div class="main-container">
             <!-- all photos -->
-                <div id="gallery"  class="section">
-                    <!-- JS will dynamically insert .gallery-item blocks with images -->
-                </div>
-     
+            <div id="gallery" class="section">
+                <!-- JS will dynamically insert .gallery-item blocks with images -->
+            </div>
+
 
             <!-- timeline section  -->
-            <div id="timeline" class="section " >
-                 <div class="timeline">
+            <div id="timeline" class="section ">
+                <div class="timeline">
                     <div class="timeline-item left">
                         <div class="timeline-content">
                             <img src="https://via.placeholder.com/250" alt="Photo 1">
@@ -221,7 +230,7 @@
                             <p>Caption for photo 3</p>
                         </div>
                     </div>
-                </div> 
+                </div>
 
             </div>
             <!-- events -->

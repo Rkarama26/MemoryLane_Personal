@@ -1,3 +1,19 @@
+// Sidebar mobile menu toggle
+const sidebarMenuBtn = document.getElementById('sidebarMenuBtn');
+const sidebar = document.getElementById('sidebar-container');
+const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+if (sidebarMenuBtn && sidebar && sidebarBackdrop) {
+    sidebarMenuBtn.addEventListener('click', () => {
+        sidebar.classList.add('open');
+        sidebarBackdrop.classList.add('active');
+        sidebarMenuBtn.style.display = 'none';
+    });
+    sidebarBackdrop.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        sidebarBackdrop.classList.remove('active');
+        setTimeout(() => { sidebarMenuBtn.style.display = ''; }, 350);
+    });
+}
 
 function isUserLoggedIn() {
     const user = localStorage.getItem("user")
