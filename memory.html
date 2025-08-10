@@ -11,19 +11,25 @@
         integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="css/galleryStyle.css">
+    <link rel="stylesheet" href="css/timeline.css">
 </head>
- 
+
+
 <body>
-    <header>
+
+    <header style="position: sticky; top: 0; z-index: 1000;">
 
         <nav class="navbar navbar-expand-lg border-bottom border-3 rounded-pill  w-100 m-auto mt-3 px-3 nav">
             <div class="container-fluid d-flex justify-content-between align-items-center h-100">
-
-                <!-- Navbar Brand -->
-                <a class="navbar-brand fw-bold mb-0 h-100 d-flex align-items-center " href="#">Photos</a>
-
+                <!-- Navbar Brand and Search -->
+                <div class="d-flex align-items-center gap-3 flex-grow-1">
+                    <a class="navbar-brand fw-bold mb-0 h-100 d-flex align-items-center me-2" href="#">Photos</a>
+                    <div class="search-container flex-grow-1">
+                        <input type="text" class="form-control search-input" placeholder="Search..." style="border-radius: 50px;">
+                    </div>
+                </div>
                 <!-- Right Side: Upload Button + Profile Icon -->
-                <div class="d-flex align-items-center gap-3 h-100">
+                <div class="d-flex align-items-center gap-3 h-100 ms-2">
 
                     <!-- Upload Icon Button -->
                     <button type="button" id="uploadIconButton" class="btn p-0 border-0 bg-transparent">
@@ -38,7 +44,8 @@
                         </div>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                             <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li><button class="dropdown-item" id="logoutBtn">Logout</button></li>
+                            <li><button class="dropdown-item" onclick="handleLogout()" id="logoutBtn">Logout</button>
+                            </li>
                         </ul>
                     </div>
 
@@ -49,164 +56,198 @@
 
     </header>
 
-    <div class="container-wrapper d-none" id="uploadFormContainer">
-        <form id="uploadForm" enctype="multipart/form-data">
-            <h3 class="text-center mb-3"> Upload</h3>
 
-            <!-- Upload Box for Image/Video -->
-            <!-- <div class=" w-75 upload-box mb-4 d-flex flex-column m-auto border rounded">
-                <h5>Drop photo/video to upload</h5>
-                <div class="dropzone">
-                    <img src="http://100dayscss.com/codepen/upload.svg" class="upload-icon" />
-                    <input type="file" class="upload-input" name="media" accept="image/*,video/*,audio/*" required />
+    <!-- upload overlay modal -->
+    <div class="upload-overlay d-none" id="uploadOverlay">
+        <div class="upload-modal">
+            <button class="close-btn" id="closeUploadModal" aria-label="Close">&times;</button>
+            <form id="uploadForm" enctype="multipart/form-data">
+                <h3 class="text-center mb-3"> Upload</h3>
+                <!-- Tags -->
+                <div class="form-section">
+                    <label for="ImageUrl" class="form-label">ImageUrl</label>
+                    <input type="text" class="form-control" name="ImageUrl" id="ImageUrl" placeholder="Enter Image URL ">
                 </div>
-            </div> -->
-
-            <!-- Tags -->
-            <div class="form-section">
-                <label for="ImageUrl" class="form-label">ImageUrl</label>
-                <input type="text" class="form-control" name="ImageUrl" id="ImageUrl" placeholder="Enter Image URL ">
-            </div>
-
-            <div class="form-section">
-                <label for="tags" class="form-label">Tags</label>
-                <input type="text" class="form-control" name="tags" id="tags"
-                    placeholder="Enter tags (comma separated)">
-            </div>
-            <!-- Voice note input -->
-            <label for="voiceNote" class="form-label">Voice Note</label>
-            <input type="file" class="form-control" id="voiceNote" accept="audio/*">
-
-            <!-- Location -->
-            <div class="form-section">
-                <label for="locationField" class="form-label">Location</label>
-                <input type="text" class="form-control" name="location" id="location"
-                    placeholder="Fetching location...">
-                <input type="hidden" id="latitude" name="latitude">
-                <input type="hidden" id="longitude" name="longitude">
-            </div>
-
-            <div class="mb-3">
-                <label for="timestampField" class="form-label">Select Date of Memory</label>
-                <input type="date" class="form-control" id="timestampField" name="timestamp" required>
-            </div>
-
-            <!-- Submit -->
-            <div class="form-section text-center">
-                <button type="submit" class="btn btn-upload mt-3">Upload</button>
-            </div>
-        </form>
+                <div class="form-section">
+                    <label for="tags" class="form-label">Tags</label>
+                    <input type="text" class="form-control" name="tags" id="tags"
+                        placeholder="Enter tags (comma separated)">
+                </div>
+                <!-- Voice note input -->
+                <label for="voiceNote" class="form-label">Voice Note</label>
+                <input type="file" class="form-control" id="voiceNote" accept="audio/*">
+                <!-- Location -->
+                <div class="form-section">
+                    <label for="locationField" class="form-label">Location</label>
+                    <input type="text" class="form-control" name="location" id="location"
+                        placeholder="Fetching location...">
+                    <input type="hidden" id="latitude" name="latitude">
+                    <input type="hidden" id="longitude" name="longitude">
+                </div>
+                <div class="mb-3">
+                    <label for="timestampField" class="form-label">Select Date of Memory</label>
+                    <input type="date" class="form-control" id="timestampField" name="timestamp" required>
+                </div>
+                <!-- Submit -->
+                <div class="form-section text-center">
+                    <button type="submit" class="btn btn-upload mt-3">Upload</button>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <div>
-        <button onclick="fetchMemories()">Fetch Memories</button>
-    </div>
 
-    <section id="gallerySection">
-        <div class="gallery" id="gallery">
-            <div class="gallery-item">
-                <div class="content"><img src="https://picsum.photos/200/300" alt=""></div>
-            </div>
-            <div class="gallery-item">
-                <div class="content"><img src="https://picsum.photos/200/320" alt=""></div>
-            </div>
-            <div class="gallery-item">
-                <div class="content"><img src="https://picsum.photos/400/300" alt=""></div>
-            </div>
-            <div class="gallery-item">
-                <div class="content"><img src="https://picsum.photos/200/200" alt=""></div>
-            </div>
-            <div class="gallery-item">
-                <div class="content"><img src="https://picsum.photos/500/300" alt=""></div>
-            </div>
-            <div class="gallery-item">
-                <div class="content"><img src="https://picsum.photos/250/300" alt=""></div>
-            </div>
-            <div class="gallery-item">
-                <div class="content"><img src="https://picsum.photos/200/250" alt=""></div>
-            </div>
-            <div class="gallery-item">
-                <div class="content"><img src="https://picsum.photos/120/150" alt=""></div>
-            </div>
-            <div class="gallery-item">
-                <div class="content"><img src="https://picsum.photos/200/301" alt=""></div>
-            </div>
-            <div class="gallery-item">
-                <div class="content"><img src="https://picsum.photos/200/302" alt=""></div>
-            </div>
-            <div class="gallery-item">
-                <div class="content"><img src="https://picsum.photos/200/303" alt=""></div>
-            </div>
-            <div class="gallery-item">
-                <div class="content"><img src="https://picsum.photos/200/304" alt=""></div>
-            </div>
-            <div class="gallery-item">
-                <div class="content"><img src="https://picsum.photos/200/305" alt=""></div>
-            </div>
-            <div class="gallery-item">
-                <div class="content"><img src="https://picsum.photos/200/306" alt=""></div>
-            </div>
-            <div class="gallery-item">
-                <div class="content"><img src="https://picsum.photos/200/307" alt=""></div>
-            </div>
-            <div class="gallery-item">
-                <div class="content"><img src="https://picsum.photos/200/308" alt=""></div>
-            </div>
-            <div class="gallery-item">
-                <div class="content"><img src="https://picsum.photos/200/309" alt=""></div>
-            </div>
-            <div class="gallery-item">
-                <div class="content"><img src="https://picsum.photos/200/310" alt=""></div>
-            </div>
-            <div class="gallery-item">
-                <div class="content"><img src="https://picsum.photos/200/290" alt=""></div>
-            </div>
-            <div class="gallery-item">
-                <div class="content"><img src="https://picsum.photos/200/299" alt=""></div>
-            </div>
-            <div class="gallery-item">
-                <div class="content"><img src="https://picsum.photos/200/230" alt=""></div>
-            </div>
-            <div class="gallery-item">
-                <div class="content"><img src="https://picsum.photos/200/298" alt=""></div>
-            </div>
-            <div class="gallery-item">
-                <div class="content"><img src="https://picsum.photos/200/297" alt=""></div>
-            </div>
-            <div class="gallery-item">
-                <div class="content"><img src="https://picsum.photos/200/296" alt=""></div>
-            </div>
-            <div class="gallery-item">
-                <div class="content"><img src="https://picsum.photos/200/312" alt=""></div>
-            </div>
+    <div id="container" class="mt-3">
+        <!-- sidebar container -->
+        <div id="sidebar-container" class="sidebar">
+            <ul class="sidebar__list list--primary">
+                <li class="sidebar__item item--heading">
+                    <h2 class="sidebar__item--heading">general</h2>
+                </li>
+
+                <!-- all photos -->
+                <li class="sidebar__item" onclick="switchSection('gallery')">
+                    <a class="sidebar__link" href="#" data-tooltip="All Photos">
+                        <span class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-images" viewBox="0 0 16 16">
+                                <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3" />
+                                <path
+                                    d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2M14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1M2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1z" />
+                            </svg>
+                        </span>
+                        <span class="text">All Photos</span>
+                    </a>
+                </li>
+                <!-- Timeline -->
+                <li class="sidebar__item" onclick="switchSection('timeline')"> <a class="sidebar__link" href="#"
+                        data-tooltip="Timeline"> <span class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-calendar4-range" viewBox="0 0 16 16">
+                                <path
+                                    d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 2a1 1 0 0 0-1 1v1h14V3a1 1 0 0 0-1-1zm13 3H1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z" />
+                                <path
+                                    d="M9 7.5a.5.5 0 0 1 .5-.5H15v2H9.5a.5.5 0 0 1-.5-.5zm-2 3v1a.5.5 0 0 1-.5.5H1v-2h5.5a.5.5 0 0 1 .5.5" />
+                            </svg> </span> <span class="text">Timeline</span>
+                    </a>
+                </li>
+                <!-- events -->
+                <li class="sidebar__item" onclick="switchSection('events')"> <a class="sidebar__link" href="#"
+                        data-tooltip="Events"> <span class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="20" fill="currentColor"
+                                class="bi bi-balloon" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M8 9.984C10.403 9.506 12 7.48 12 5a4 4 0 0 0-8 0c0 2.48 1.597 4.506 4 4.984M13 5c0 2.837-1.789 5.227-4.52 5.901l.244.487a.25.25 0 1 1-.448.224l-.008-.017c.008.11.02.202.037.29.054.27.161.488.419 1.003.288.578.235 1.15.076 1.629-.157.469-.422.867-.588 1.115l-.004.007a.25.25 0 1 1-.416-.278c.168-.252.4-.6.533-1.003.133-.396.163-.824-.049-1.246l-.013-.028c-.24-.48-.38-.758-.448-1.102a3 3 0 0 1-.052-.45l-.04.08a.25.25 0 1 1-.447-.224l.244-.487C4.789 10.227 3 7.837 3 5a5 5 0 0 1 10 0m-6.938-.495a2 2 0 0 1 1.443-1.443C7.773 2.994 8 2.776 8 2.5s-.226-.504-.498-.459a3 3 0 0 0-2.46 2.461c-.046.272.182.498.458.498s.494-.227.562-.495" />
+                            </svg> </span> <span class="text">Events</span>
+                    </a>
+                </li>
+
+                <!-- Archive -->
+                <li class="sidebar__item" onclick="switchSection('archive')"> <a class="sidebar__link" href="#"
+                        data-tooltip="Archive"> <span class="icon">
+                            <svg width="16" height="16" fill="currentColor" class="bi bi-archive" viewBox="0 0 16 16">
+                                <path
+                                    d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5zm13-3H1v2h14zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
+                            </svg> </span> <span class="text">Archive</span> </a> </li>
+
+                <!-- Trash -->
+                <li class="sidebar__item" onclick="switchSection('trash')"> <a class="sidebar__link" href="#"
+                        data-tooltip="Trash"> <span class="icon">
+                            <svg width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path
+                                    d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                <path
+                                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                            </svg> </span> <span class="text">Trash</span> </a> </li>
+            </ul>
+            <ul class="sidebar__list list--secondary">
+                <li class="sidebar__item item--heading">
+                    <h2 class="sidebar__item--heading">general</h2>
+                </li>
+                <li class="sidebar__item"> <a class="sidebar__link" href="#" data-tooltip="Profile"> <span class="icon">
+                            <svg width="16" height="16" fill="currentColor" class="bi bi-person-circle"
+                                viewBox="0 0 16 16">
+                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                                <path fill-rule="evenodd"
+                                    d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                            </svg> </span> <span class="text">Profile</span> </a> </li>
+                <li class="sidebar__item"> <a class="sidebar__link" href="#" data-tooltip="Settings"> <span
+                            class="icon"> <svg width="16" height="16" fill="currentColor" class="bi bi-gear"
+                                viewBox="0 0 16 16">
+                                <path
+                                    d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
+                                <path
+                                    d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
+                            </svg> </span> <span class="text">Settings</span> </a> </li>
+                <li class="sidebar__item"> <a class="sidebar__link" href="#" data-tooltip="Logout"> <span class="icon">
+                            <svg width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right"
+                                viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+                                <path fill-rule="evenodd"
+                                    d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                            </svg> </span> <span class="text">Logout</span> </a> </li>
+            </ul>
         </div>
 
+        <!-- main containers -->
+        <div class="main-container">
+            <!-- all photos -->
+                <div id="gallery"  class="section">
+                    <!-- JS will dynamically insert .gallery-item blocks with images -->
+                </div>
+     
 
+            <!-- timeline section  -->
+            <div id="timeline" class="section " >
+                 <div class="timeline">
+                    <div class="timeline-item left">
+                        <div class="timeline-content">
+                            <img src="https://via.placeholder.com/250" alt="Photo 1">
+                            <p>Caption for photo 1</p>
+                        </div>
+                    </div>
 
+                    <div class="timeline-item right">
+                        <div class="timeline-content">
+                            <img src="https://via.placeholder.com/250" alt="Photo 2">
+                            <p>Caption for photo 2</p>
+                        </div>
+                    </div>
 
+                    <div class="timeline-item left">
+                        <div class="timeline-content">
+                            <img src="https://via.placeholder.com/250" alt="Photo 3">
+                            <p>Caption for photo 3</p>
+                        </div>
+                    </div>
+                </div> 
 
+            </div>
+            <!-- events -->
+            <div id="events" class="section">
+                events
+            </div>
+            <!-- archive -->
+            <div id="archive" class="section">
+                archive
+            </div>
+            <!-- trash -->
+            <div id="trash" class="section">
+                trash
+            </div>
 
-    </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
         crossorigin="anonymous"></script>
     <script src="js/memoryscript.js"></script>
-    <script src="js/gallery.js"></script>
     <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+
+
+
 
 </body>
 

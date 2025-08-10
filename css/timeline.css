@@ -1,0 +1,74 @@
+
+
+/* Timeline wrapper */
+.timeline {
+  position: relative;
+  max-width: 900px;
+  margin: auto;           /* Center on page */
+  padding: 40px 0;
+  border: 2px solid;
+ 
+}
+
+/* Vertical center line */
+.timeline::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  background-color: #000;
+  top: 0;
+  bottom: 0;
+  left: 50%;              /* Center of container */
+  margin-left: -2px;      /* Half of width to truly center */
+}
+
+/* Timeline items */
+.timeline-item {
+  position: relative;
+  width: 50%;
+  padding: 20px 40px;
+  box-sizing: border-box;
+}
+
+/* Connection dots */
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background-color: white;
+  border: 3px solid #000;
+  border-radius: 50%;
+  top: 30px;
+  z-index: 1;
+}
+
+/* Left side */
+.timeline-item.left {
+  left: 0;
+}
+
+.timeline-item.left::before {
+  right: -9px; /* Position dot next to line */
+}
+
+/* Right side */
+.timeline-item.right {
+  left: 50%;
+}
+
+.timeline-item.right::before {
+  left: -9px;
+}
+
+/* Timeline content boxes */
+.timeline-content {
+  background-color: #eee;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.timeline-content img {
+  max-width: 100%;
+  border-radius: 6px;
+}
