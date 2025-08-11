@@ -1,127 +1,121 @@
-#events-section {
-    background: #f9f9f9;
-    width: 77%;
-    height: 90vh;
-    margin: 0 auto;
-    padding: 20px 10px;
-    min-height: 80vh;
-    box-sizing: border-box;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-    overflow-y: auto;
-    float: right;
+
+.memory-event-block {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(66,152,195,0.10);
+  margin-bottom: 2em;
+  padding: 1.5em 2em 1.5em 2em;
+  transition: box-shadow 0.2s, transform 0.2s;
+  position: relative;
+  border-left: 6px solid #4298c3;
+}
+.memory-event-block:hover {
+  box-shadow: 0 6px 24px rgba(66,152,195,0.18);
+  transform: translateY(-2px) scale(1.01);
+}
+.event-date {
+  font-size: 1.2em;
+  font-weight: 700;
+  color: #4298c3;
+  margin-bottom: 0.5em;
+  letter-spacing: 0.5px;
+}
+.event-day-images {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  margin-bottom: 1em;
+}
+.event-day-thumb {
+  width: 38px;
+  height: 38px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #e3eaf1;
+  box-shadow: 0 1px 4px rgba(66,152,195,0.08);
+  transition: border 0.2s;
+}
+.event-day-thumb:hover {
+  border: 2px solid #4298c3;
+}
+.event-timeline {
+  background: #f5faff;
+  border-radius: 10px;
+  padding: 1em 1em 1em 1.5em;
+  margin: 0;
+  box-shadow: 0 1px 4px rgba(66,152,195,0.05);
+}
+.event-timeline .event {
+  margin-bottom: 1em;
+  padding: 0.7em 1em;
+  border-radius: 8px;
+  background: #eaf6fb;
+  box-shadow: 0 1px 2px rgba(66,152,195,0.04);
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+}
+.event-timeline .event:last-child {
+  margin-bottom: 0;
+}
+.event-timeline .event:hover {
+  background: #d2eafd;
+}
+.event-time {
+  font-weight: 600;
+  color: #4298c3;
+  margin-right: 0.5em;
+  font-size: 1.05em;
+}
+.event-desc {
+  color: #222;
+  font-size: 1.05em;
+}
+
+/* ===== Event Section Styling ===== */
+#event-section {
+  margin-right: 20px;
+  width: 77%;
+  float: right;
+  height: 90vh;
+  padding: 10px;
   overflow-y: auto;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background: #f9f9f9;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px,
+    rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
-#events-section::-webkit-scrollbar {
-    display: none;
+#event-section.section::-webkit-scrollbar {
+  display: none;
 }
 
 
-.event img {
+
+
+/* ===== Responsive Layout ===== */
+@media (max-width: 1200px) {
+
+  #event-section {
     width: 100%;
-    border-radius: 5px;
-}
+    margin: auto;
+  }
 
-@media screen and (max-width: 599px) {
-    .event img {
-        height: 250px;
-        object-fit: cover;
-    }
-    #events-section {
-        width: 100%;
-    }
 }
 
 
-.event h1 {
-    font-family: 'Poppins', sans-serif;
+@media (max-width: 768px) {
+  #event-section {
+    width: 100%;
+    margin: auto;
+  }
 }
 
-.event h2 {
-    color: #ed666f;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-}
-
-.event h3 {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    margin: 0.5rem 0;
-}
-
-
-.grid-wrapper {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.2rem;
-    margin-bottom: 2rem;
-}
-
-
-/* Original min-width: 1025px → now max-width: 1024px */
-
-@media screen and (max-width: 1024px) {
-    #events-section {
-        padding: 10px 2vw;
-    }
-    .grid-wrapper {
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-        gap: 0.8rem;
-    }
-    #events-section {
-        width: 100%;
-    }
-}
-
-@media screen and (max-width: 600px) {
-    #events-section {
-        padding: 5px 0.5vw;
-    }
-    .grid-wrapper {
-        grid-template-columns: 1fr;
-        gap: 0.5rem;
-    }
-    #events-section {
-        width: 100%;
-    }
-}
-
-
-
-article {
-    background: #fff;
-    border-radius: 6px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-    padding: 1rem;
-    margin: 0;
-    border: 1px solid #ececec;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-article p {
-    font-family: 'Karla', sans-serif;
-    font-size: 0.98rem;
-    color: #333;
-    margin: 0;
-}
-
-
-/* Remove custom grid-area and border rules for simplicity and better responsiveness */
-
-.footer-note {
-    text-align: center;
-    font-family: 'Karla', sans-serif;
-    font-size: 0.9rem;
-    background: white;
-    padding: 1rem;
-    color: black;
-    border-radius: 5px;
-}
-
-.footer-note a {
-    color: inherit;
-    font-weight: 600;
+@media (max-width: 500px) {
+  #event-section {
+    width: 100%;
+    margin: auto;
+  }
+  
 }

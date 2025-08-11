@@ -1,0 +1,41 @@
+#archive {
+  margin-right: 20px;
+  width: 77%;
+  float: right;
+  height: 90vh;
+  padding: 10px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background: #f9f9f9;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px,
+    rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+
+
+/* ===== Responsive Layout ===== */
+@media (max-width: 1200px) {
+
+  #archive {
+    width: 100%;
+    margin: auto;
+  }
+
+}
+
+
+@media (max-width: 768px) {
+  #archive {
+    width: 100%;
+    margin: auto;
+  }
+}
+
+@media (max-width: 500px) {
+  #archive {
+    width: 100%;
+    margin: auto;
+  }
+  
+}

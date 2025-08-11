@@ -1,3 +1,50 @@
+// Render archived images in the archive section
+function renderArchive(memories) {
+    const archiveSection = document.getElementById('archive');
+    if (!archiveSection) return;
+    archiveSection.innerHTML = '<h3>Archived Images</h3>';
+    const archived = memories.filter(m => m.archived);
+    if (archived.length === 0) {
+        archiveSection.innerHTML += '<p class="text-center">No archived images.</p>';
+        return;
+    }
+    const container = document.createElement('div');
+    container.className = 'archive-gallery';
+    archived.forEach(memory => {
+        const wrapper = document.createElement('div');
+        wrapper.style.display = 'inline-block';
+        wrapper.style.position = 'relative';
+        const img = document.createElement('img');
+        img.src = memory.imageUrl;
+        img.alt = 'Archived memory';
+        img.className = 'archive-thumb';
+        img.style = 'width:80px;height:80px;object-fit:cover;border-radius:8px;margin:8px;box-shadow:0 1px 4px rgba(66,152,195,0.08);';
+        // Unarchive icon
+        const unarchiveIcon = document.createElement('span');
+        unarchiveIcon.className = 'unarchive-icon';
+        unarchiveIcon.title = 'Unarchive photo';
+        unarchiveIcon.style.cursor = 'pointer';
+        unarchiveIcon.style.position = 'absolute';
+        unarchiveIcon.style.top = '6px';
+        unarchiveIcon.style.right = '6px';
+        unarchiveIcon.innerHTML = `
+<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"#4298c3\" class=\"bi bi-arrow-up-square\" viewBox=\"0 0 16 16\">\n  <path fill-rule=\"evenodd\" d=\"M14 14V2H2v12h12zm1-12a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2z\"/>\n  <path fill-rule=\"evenodd\" d=\"M8 11a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 0 0 .708.708L7.5 5.707V10.5A.5.5 0 0 0 8 11z\"/>\n</svg>`;
+        unarchiveIcon.addEventListener('click', async () => {
+            await fetch(`${baseUrl}memories/${memory.id}.json`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ archived: false })
+            });
+            memory.archived = false;
+            renderMemories(memories);
+            renderArchive(memories);
+        });
+        wrapper.appendChild(img);
+        wrapper.appendChild(unarchiveIcon);
+        container.appendChild(wrapper);
+    });
+    archiveSection.appendChild(container);
+}
 // Sidebar mobile menu toggle
 const sidebarMenuBtn = document.getElementById('sidebarMenuBtn');
 const sidebar = document.getElementById('sidebar-container');
@@ -132,6 +179,7 @@ const baseUrl = "https://memory-lane-9e674-default-rtdb.asia-southeast1.firebase
 document.getElementById('uploadForm').addEventListener('submit', async (e) => {
     e.preventDefault();
 
+
     const tags = document.getElementById('tags').value.split(',').map(tag => tag.trim()).filter(tag => tag !== '');
     let timestampValue = document.getElementById('timestampField').value;
     let timestamp;
@@ -147,12 +195,24 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
     const imageUrl = document.getElementById('ImageUrl').value;
     const note = document.getElementById('note').value;
 
+    // Parse events from textarea (time - description)
+    const eventsRaw = document.getElementById('events').value;
+    const events = eventsRaw.split('\n').map(line => {
+        const [time, ...descParts] = line.split(' - ');
+        const description = descParts.join(' - ').trim();
+        if (time && description) {
+            return { time: time.trim(), description };
+        }
+        return null;
+    }).filter(e => e);
+
     const memories = {
         userId: userId,
         imageUrl: imageUrl,
         tags: tags,
         timestamp: timestamp,
-        note: note
+        note: note,
+        events: events
     };
 
     console.log("Memory Data:", memories);
@@ -204,10 +264,105 @@ async function fetchMemories() {
             .filter(([key, memory]) => memory.userId === userId)
             .map(([key, memory]) => ({ id: key, ...memory }));
 
-    memories = userMemories;
-    console.log("Memories:", memories);
-    renderMemories(memories);
-    renderTimeline(memories);
+        memories = userMemories;
+        console.log("Memories:", memories);
+        renderMemories(memories);
+        renderTimeline(memories);
+        renderEvents(memories);
+        renderArchive(memories);
+        // Render events dynamically in the event section
+        function renderEvents(memories) {
+            const eventSection = document.getElementById('event-section');
+            if (!eventSection) return;
+            // Remove previous dynamic content (but keep static if any)
+            let eventContent = eventSection.querySelector('#event-content');
+            if (!eventContent) {
+                eventContent = document.createElement('div');
+                eventContent.id = 'event-content';
+                eventSection.appendChild(eventContent);
+            }
+            eventContent.innerHTML = '';
+
+            // Filter memories with events
+            const memoriesWithEvents = memories.filter(m => Array.isArray(m.events) && m.events.length > 0);
+            if (memoriesWithEvents.length === 0) {
+                eventContent.innerHTML = '<p class="text-center">No events found.</p>';
+                return;
+            }
+
+            // For each memory, show its date, all images for that day, and events
+            memoriesWithEvents.forEach(memory => {
+                const dateObj = new Date(memory.timestamp);
+                const formattedDate = dateObj.toLocaleDateString('default', { year: 'numeric', month: 'long', day: 'numeric' });
+                // Find all images for the same day
+                const sameDayMemories = memories.filter(m => {
+                    const d1 = new Date(m.timestamp);
+                    return d1.getFullYear() === dateObj.getFullYear() &&
+                           d1.getMonth() === dateObj.getMonth() &&
+                           d1.getDate() === dateObj.getDate();
+                });
+                const imagesHtml = sameDayMemories.map(m => `<img src="${m.imageUrl}" alt="Memory Image" class="event-day-thumb" style="width:32px;height:32px;object-fit:cover;border-radius:4px;margin-right:4px;">`).join('');
+                const memoryBlock = document.createElement('div');
+                memoryBlock.className = 'memory-event-block';
+                // Build event list with edit icons
+                const eventListHtml = memory.events.map((ev, idx) => `
+                    <li class="event" data-time="${ev.time}">
+                        <div class="member-infos">
+                            <span class="event-time">${ev.time}</span> - <span class="event-desc">${ev.description}</span>
+                            <span class="edit-event-icon" data-memoryid="${memory.id}" data-eventidx="${idx}" style="cursor:pointer;margin-left:10px;vertical-align:middle;">
+                                <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"#4298c3\" viewBox=\"0 0 16 16\"><path d=\"M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z\"/></svg>
+                            </span>
+                        </div>
+                    </li>
+                `).join('');
+                memoryBlock.innerHTML = `
+                    <h3 class="event-date">${formattedDate}</h3>
+                    <div class="event-day-images" style="margin-bottom:8px;">${imagesHtml}</div>
+                    <ul class="event-timeline">${eventListHtml}</ul>
+                `;
+                eventContent.appendChild(memoryBlock);
+            });
+
+            // Add edit functionality
+            eventContent.querySelectorAll('.edit-event-icon').forEach(icon => {
+                icon.addEventListener('click', async function() {
+                    const memoryId = this.getAttribute('data-memoryid');
+                    const eventIdx = parseInt(this.getAttribute('data-eventidx'));
+                    const memory = memories.find(m => m.id === memoryId);
+                    if (!memory) return;
+                    const event = memory.events[eventIdx];
+                    const li = this.closest('li.event');
+                    if (!li) return;
+                    // Replace with input fields
+                    li.innerHTML = `<div class=\"member-infos\">
+                        <input type=\"text\" class=\"edit-event-time\" value=\"${event.time}\" style=\"width:80px;margin-right:8px;\">
+                        -
+                        <input type=\"text\" class=\"edit-event-desc\" value=\"${event.description}\" style=\"width:60%;margin-left:8px;\">
+                        <button class=\"save-event-btn\" style=\"margin-left:10px;padding:2px 8px;\">Save</button>
+                        <button class=\"cancel-event-btn\" style=\"margin-left:4px;padding:2px 8px;\">Cancel</button>
+                    </div>`;
+                    li.querySelector('.edit-event-time').focus();
+                    // Save handler
+                    li.querySelector('.save-event-btn').addEventListener('click', async () => {
+                        const newTime = li.querySelector('.edit-event-time').value.trim();
+                        const newDesc = li.querySelector('.edit-event-desc').value.trim();
+                        if (!newTime || !newDesc) return alert('Both time and description are required.');
+                        memory.events[eventIdx] = { time: newTime, description: newDesc };
+                        // Update in Firebase
+                        await fetch(`${baseUrl}memories/${memoryId}.json`, {
+                            method: 'PATCH',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ events: memory.events })
+                        });
+                        renderEvents(memories);
+                    });
+                    // Cancel handler
+                    li.querySelector('.cancel-event-btn').addEventListener('click', () => {
+                        renderEvents(memories);
+                    });
+                });
+            });
+        }
 
     } catch (error) {
         console.error('Error fetching memories:', error);
@@ -334,6 +489,7 @@ function renderMemories(memories) {
 
         // Images
         grouped[monthYear].forEach(memory => {
+            if (memory.archived) return; // Skip archived in main gallery
             const galleryItem = document.createElement('div');
             galleryItem.className = 'gallery-item';
 
@@ -358,6 +514,27 @@ function renderMemories(memories) {
   <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
 </svg>`;
             editIcon.title = 'Edit tags';
+
+            // Archive icon
+            const archiveIcon = document.createElement('span');
+            archiveIcon.className = 'archive-icon';
+            archiveIcon.title = 'Archive photo';
+            archiveIcon.style.cursor = 'pointer';
+            archiveIcon.style.marginLeft = '8px';
+            archiveIcon.innerHTML = `
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#888" class="bi bi-archive" viewBox="0 0 16 16">
+  <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5zm13-3H1v2h14zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
+</svg>`;
+            archiveIcon.addEventListener('click', async () => {
+                // Set archived flag in Firebase
+                await fetch(`${baseUrl}memories/${memory.id}.json`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ archived: true })
+                });
+                // Instead of mutating and re-rendering from stale data, re-fetch from DB for consistency
+                await fetchMemories();
+            });
 
             // Add click event for editing tags
             editIcon.addEventListener('click', () => {
@@ -399,9 +576,10 @@ function renderMemories(memories) {
                 });
             });
 
-            // Append text and icon to overlay
+            // Append text and icons to overlay
             tagOverlay.appendChild(tagText);
             tagOverlay.appendChild(editIcon);
+            tagOverlay.appendChild(archiveIcon);
             content.appendChild(img);
             content.appendChild(tagOverlay);
             galleryItem.appendChild(content);

@@ -1,4 +1,5 @@
 #timeline {
+  margin-right: 20px;
   width: 77%;
   float: right;
   height: 90vh;
@@ -40,7 +41,9 @@
 #timeline.section::-webkit-scrollbar {
   display: none;
 }
-
+.timeline-content>h3{
+    font-weight: bold;
+  }
 /* Timeline items */
 .timeline-item {
   position: relative;
@@ -99,18 +102,31 @@
 
   #timeline {
     width: 100%;
+    margin: auto;
   }
+
 }
 
 
 @media (max-width: 768px) {
   #timeline {
     width: 100%;
+    margin: auto;
   }
 }
 
 @media (max-width: 500px) {
   #timeline {
     width: 100%;
+    margin: auto;
+  }
+  .timeline-content{
+    width: 130px;
+  }
+  .timeline-content>p{
+    font-size: 10px;
+  }
+  .timeline-content>h3{
+    font-size: 12px;
   }
 }
