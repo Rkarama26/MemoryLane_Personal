@@ -24,6 +24,7 @@
         <!-- Sing in  Form -->
         <section class="sign-in">
             <div class="container">
+                <p>Use demo credential to login dummy data added</p>
                 <div class="signin-content">
                     <div class="signin-image">
                         <figure><img src="images/signin-image.jpg" alt="sing up image"></figure>
@@ -74,7 +75,8 @@
         crossorigin="anonymous"></script>
     <!-- JS -->
     <script>
-
+        const email = document.getElementById("loginEmail").value = "demo@gmail.com"
+        const password = document.getElementById("loginPassword").value = "demo";
 
         const firebaseURL = "https://memory-lane-9e674-default-rtdb.asia-southeast1.firebasedatabase.app/users.json"; // Replace with your actual DB URL
 
@@ -84,6 +86,7 @@
             const email = document.getElementById("loginEmail").value;
             const password = document.getElementById("loginPassword").value;
             const rememberMe = document.getElementById("remember-me").checked;
+
 
             try {
                 const response = await fetch(firebaseURL);
