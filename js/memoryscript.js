@@ -62,6 +62,8 @@ if (sidebarMenuBtn && sidebar && sidebarBackdrop) {
     });
 }
 
+// Dark theme toggle logic
+
 function isUserLoggedIn() {
     const user = localStorage.getItem("user")
     if (!user) {
@@ -298,8 +300,8 @@ async function fetchMemories() {
                 const sameDayMemories = memories.filter(m => {
                     const d1 = new Date(m.timestamp);
                     return d1.getFullYear() === dateObj.getFullYear() &&
-                           d1.getMonth() === dateObj.getMonth() &&
-                           d1.getDate() === dateObj.getDate();
+                        d1.getMonth() === dateObj.getMonth() &&
+                        d1.getDate() === dateObj.getDate();
                 });
                 const imagesHtml = sameDayMemories.map(m => `<img src="${m.imageUrl}" alt="Memory Image" class="event-day-thumb" style="width:32px;height:32px;object-fit:cover;border-radius:4px;margin-right:4px;">`).join('');
                 const memoryBlock = document.createElement('div');
@@ -325,7 +327,7 @@ async function fetchMemories() {
 
             // Add edit functionality
             eventContent.querySelectorAll('.edit-event-icon').forEach(icon => {
-                icon.addEventListener('click', async function() {
+                icon.addEventListener('click', async function () {
                     const memoryId = this.getAttribute('data-memoryid');
                     const eventIdx = parseInt(this.getAttribute('data-eventidx'));
                     const memory = memories.find(m => m.id === memoryId);
@@ -452,6 +454,23 @@ async function updateTagsInDB(memoryId, newTags) {
 
 // render images and update tags
 function renderMemories(memories) {
+    // Create delete icon
+    const deleteIcon = document.createElement('span');
+    deleteIcon.className = 'delete-icon';
+    deleteIcon.title = 'Delete photo';
+    deleteIcon.style.cursor = 'pointer';
+    deleteIcon.style.marginLeft = '8px';
+    deleteIcon.innerHTML = `
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+  <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+</svg>`;
+    deleteIcon.addEventListener('click', async () => {
+        if (!confirm('Are you sure you want to permanently delete this image?')) return;
+        await fetch(`${baseUrl}memories/${memory.id}.json`, {
+            method: 'DELETE'
+        });
+        await fetchMemories();
+    });
     const gallery = document.getElementById('gallery');
     gallery.innerHTML = ''; // Clear existing content
 
@@ -471,7 +490,7 @@ function renderMemories(memories) {
         return new Date(a) - new Date(b); // Ascending; swap for descending
     });
 
-    // Render each month in sorted order
+    // Rendering each month in sorted order
     sortedMonthYears.forEach(monthYear => {
         const section = document.createElement('div');
         section.className = 'month-section';
@@ -580,6 +599,7 @@ function renderMemories(memories) {
             tagOverlay.appendChild(tagText);
             tagOverlay.appendChild(editIcon);
             tagOverlay.appendChild(archiveIcon);
+            tagOverlay.appendChild(deleteIcon);
             content.appendChild(img);
             content.appendChild(tagOverlay);
             galleryItem.appendChild(content);
@@ -714,7 +734,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
+  //timeline section rendering
 function renderTimeline(memories) {
     const timelineContainer = document.querySelector('.timeline');
     if (!timelineContainer) return;
@@ -740,3 +760,4 @@ function renderTimeline(memories) {
         timelineContainer.appendChild(item);
     });
 }
+

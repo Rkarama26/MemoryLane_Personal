@@ -39,6 +39,8 @@
                         <i class="bi bi-cloud-arrow-up-fill fs-3"></i>
                     </button>
 
+                    
+
                     <!-- Profile Dropdown -->
                     <div class="dropdown">
                         <div class="profile-icon" id="profileDropdown" role="button" data-bs-toggle="dropdown"
@@ -167,25 +169,8 @@
                             </svg> </span> <span class="text">Archive</span> </a> </li>
 
             </ul>
-            <ul class="sidebar__list list--secondary">
-                <li class="sidebar__item item--heading">
-                    <h2 class="sidebar__item--heading">general</h2>
-                </li>
-                <li class="sidebar__item"> <a class="sidebar__link" href="#" data-tooltip="Profile"> <span class="icon">
-                            <svg width="16" height="16" fill="currentColor" class="bi bi-person-circle"
-                                viewBox="0 0 16 16">
-                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
-                                <path fill-rule="evenodd"
-                                    d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
-                            </svg> </span> <span class="text">Profile</span> </a> </li>
-                <li class="sidebar__item"> <a class="sidebar__link" href="#" data-tooltip="Settings"> <span
-                            class="icon"> <svg width="16" height="16" fill="currentColor" class="bi bi-gear"
-                                viewBox="0 0 16 16">
-                                <path
-                                    d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
-                                <path
-                                    d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
-                            </svg> </span> <span class="text">Settings</span> </a> </li>
+            <ul class="sidebar__list list--secondary" style="margin-top: 280px;">
+
                 <li class="sidebar__item"> <a class="sidebar__link" href="#" onclick="handleLogout()"
                         data-tooltip="Logout"> <span class="icon">
                             <svg width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right"
@@ -217,119 +202,7 @@
             <div id="event-section" class="section">
            
                 <div id="event-content">
-                    <ul class="event-timeline">
-                        <li class="event" data-date="12:30 - 1:00pm">
-                            <div class="member-infos">
-                                <h1 class='member-title'>Registration</h1>
-                                <h2 class="member-location "><span class='entypo-location'></span>Nantes, France</h2>
-
-                                <ul class="member-contact">
-                                    <li class="member-website"><a class="entypo-globe" target="_blank"
-                                            href="http://www.barneyparker.com"></a></li>
-                                    <li class="member-twitter"><a class="entypo-twitter" target="_blank"
-                                            href="https://twitter.com/barney_parker"></a></li>
-                                    <li class="member-hire"><a class="entypo-mail" target="_blank"
-                                            href="mailto://barney@barneyparker.com"></a></li>
-                                </ul>
-
-                                <div class="member-parameters">
-                                    <span class="follow entypo-plus"></span>
-                                    <span class="options entypo-cog"></span>
-                                    <ul class="member-socials">
-                                        <li class="member-shots-number"><a href="http://dribbble.com/One_div">3 <span
-                                                    class="shots-number">shots</span></a></li>
-                                        <li class="member-follower"><a href="http://dribbble.com/One_div/followers">12
-                                                <span class="followers">followers</span></a></li>
-                                    </ul>
-                                </div>
-
-                            </div>
-
-                        </li>
-                        <li id='fader' class="event" data-date="2:30 - 4:00pm">
-                            <div class="member-infos">
-                                <h1 class='member-title'>Opening Ceremony</h1>
-                                <h2 class="member-location "><span class='entypo-location'></span>Nantes, France</h2>
-
-                                <ul class="member-contact">
-                                    <li class="member-website"><a class="entypo-globe" target="_blank"
-                                            href="http://www.barneyparker.com"></a></li>
-                                    <li class="member-twitter"><a class="entypo-twitter" target="_blank"
-                                            href="https://twitter.com/barney_parker"></a></li>
-                                    <li class="member-hire"><a class="entypo-mail" target="_blank"
-                                            href="mailto://barney@barneyparker.com"></a></li>
-                                </ul>
-
-                                <div class="member-parameters">
-                                    <a href="" class="follow entypo-plus"></a>
-                                    <a href="" class="options entypo-cog"></a>
-                                    <ul class="member-socials">
-                                        <li class="member-shots-number"><a href="http://dribbble.com/One_div">3 <span
-                                                    class="shots-number">shots</span></a></li>
-                                        <li class="member-follower"><a href="http://dribbble.com/One_div/followers">12
-                                                <span class="followers">followers</span></a></li>
-                                    </ul>
-                                </div>
-
-                            </div>
-
-                        </li>
-                        <li class="event" data-date="5:00 - 8:00pm">
-                            <div class="member-infos">
-                                <h1 class='member-title'>Main Event</h1>
-                                <h2 class="member-location "><span class='entypo-location'></span>Nantes, France</h2>
-
-                                <ul class="member-contact">
-                                    <li class="member-website"><a class="entypo-globe" target="_blank"
-                                            href="http://www.barneyparker.com"></a></li>
-                                    <li class="member-twitter"><a class="entypo-twitter" target="_blank"
-                                            href="https://twitter.com/barney_parker"></a></li>
-                                    <li class="member-hire"><a class="entypo-mail" target="_blank"
-                                            href="mailto://barney@barneyparker.com"></a></li>
-                                </ul>
-
-                                <div class="member-parameters">
-                                    <a href="" class="follow entypo-plus"></a>
-                                    <a href="" class="options entypo-cog"></a>
-                                    <ul class="member-socials">
-                                        <li class="member-shots-number"><a href="http://dribbble.com/One_div">3 <span
-                                                    class="shots-number">shots</span></a></li>
-                                        <li class="member-follower"><a href="http://dribbble.com/One_div/followers">12
-                                                <span class="followers">followers</span></a></li>
-                                    </ul>
-                                </div>
-
-                            </div>
-
-                        </li>
-                        <li class="event" data-date="8:30 - 9:30pm">
-                            <div class="member-infos">
-                                <h1 class='member-title'>Closing Ceremony</h1>
-                                <h2 class="member-location "><span class='entypo-location'></span>Nantes, France</h2>
-
-                                <ul class="member-contact">
-                                    <li class="member-website"><a class="entypo-globe" target="_blank"
-                                            href="http://www.barneyparker.com"></a></li>
-                                    <li class="member-twitter"><a class="entypo-twitter" target="_blank"
-                                            href="https://twitter.com/barney_parker"></a></li>
-                                    <li class="member-hire"><a class="entypo-mail" target="_blank"
-                                            href="mailto://barney@barneyparker.com"></a></li>
-                                </ul>
-
-                                <div class="member-parameters">
-                                    <a href="" class="follow entypo-plus"></a>
-                                    <a href="" class="options entypo-cog"></a>
-                                    <ul class="member-socials">
-                                        <li class="member-shots-number"><a href="http://dribbble.com/One_div">3 <span
-                                                    class="shots-number">shots</span></a></li>
-                                        <li class="member-follower"><a href="http://dribbble.com/One_div/followers">12
-                                                <span class="followers">followers</span></a></li>
-                                    </ul>
-                                </div>
-
-                            </div>
-                        </li>
-                    </ul>
+                    
                 </div>
                  
 
