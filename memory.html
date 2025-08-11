@@ -17,7 +17,7 @@
 
 <body>
 
-    <header style="position: sticky; top: 0; z-index: 1000;">
+    <header style="position: sticky; margin-top: 10px; z-index: 1000;">
 
         <nav class="navbar navbar-expand-lg border-bottom border-3 rounded-pill  w-100 m-auto mt-3 px-3 nav">
             <div class="container-fluid d-flex justify-content-between align-items-center h-100">
@@ -76,13 +76,14 @@
                         placeholder="Enter tags (comma separated)">
                 </div>
                 <!-- Voice note input -->
-                <label for="voiceNote" class="form-label">Voice Note</label>
-                <input type="file" class="form-control" id="voiceNote" accept="audio/*">
+                <label for="note" class="form-label">Note</label>
+                <input type="text" class="form-control" id="note" placeholder="Enter a note for the memory">
+
                 <!-- Location -->
                 <div class="form-section">
                     <label for="locationField" class="form-label">Location</label>
                     <input type="text" class="form-control" name="location" id="location"
-                        placeholder="Fetching location...">
+                        placeholder="Enter location (optional)">
                     <input type="hidden" id="latitude" name="latitude">
                     <input type="hidden" id="longitude" name="longitude">
                 </div>
@@ -210,26 +211,7 @@
             <!-- timeline section  -->
             <div id="timeline" class="section ">
                 <div class="timeline">
-                    <div class="timeline-item left">
-                        <div class="timeline-content">
-                            <img src="https://via.placeholder.com/250" alt="Photo 1">
-                            <p>Caption for photo 1</p>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item right">
-                        <div class="timeline-content">
-                            <img src="https://via.placeholder.com/250" alt="Photo 2">
-                            <p>Caption for photo 2</p>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item left">
-                        <div class="timeline-content">
-                            <img src="https://via.placeholder.com/250" alt="Photo 3">
-                            <p>Caption for photo 3</p>
-                        </div>
-                    </div>
+                <!-- timeline data inserted here  -->
                 </div>
 
             </div>

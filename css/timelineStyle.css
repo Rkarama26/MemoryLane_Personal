@@ -1,8 +1,10 @@
 #timeline {
+  background-color: #000;
   width: 77%;
   float: right;
-  height: 90vh;
+  margin-right: 20px;
   padding: 10px;
+  height: 90vh;
   overflow-y: auto;
   box-sizing: border-box;
   border-radius: 8px;
@@ -11,15 +13,17 @@
     rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
+#timeline.section::-webkit-scrollbar {
+  display: none;
+}
+
 /* Timeline wrapper */
 .timeline {
-  margin-top: 2px;
   position: relative;
   max-width: 900px;
   margin: auto;
-  padding: 0px 0;
-  width: 100%;
-
+  /* Center on page */
+  padding: 40px 0;
 
 }
 
@@ -37,10 +41,6 @@
   /* Half of width to truly center */
 }
 
-#timeline.section::-webkit-scrollbar {
-  display: none;
-}
-
 /* Timeline items */
 .timeline-item {
   position: relative;
@@ -55,7 +55,7 @@
   position: absolute;
   width: 18px;
   height: 18px;
-  background-color: white;
+  background-color: rgb(15, 14, 14);
   border: 3px solid #000;
   border-radius: 50%;
   top: 30px;
@@ -83,7 +83,7 @@
 
 /* Timeline content boxes */
 .timeline-content {
-  background-color: #eee;
+  background-color: #e1dede;
   padding: 15px;
   border-radius: 8px;
 }
@@ -94,23 +94,36 @@
 }
 
 
-/* ===== Responsive Layout ===== */
 @media (max-width: 1200px) {
-
   #timeline {
     width: 100%;
+    float: none;
+
   }
 }
-
 
 @media (max-width: 768px) {
   #timeline {
     width: 100%;
+    margin: auto;
   }
 }
 
 @media (max-width: 500px) {
   #timeline {
     width: 100%;
+    margin: auto;
   }
+}
+
+/* Timeline slide-in animation */
+.timeline-item {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.6s cubic-bezier(.4, 0, .2, 1), transform 0.6s cubic-bezier(.4, 0, .2, 1);
+}
+
+.timeline-item.slide-in {
+  opacity: 1;
+  transform: translateY(0);
 }

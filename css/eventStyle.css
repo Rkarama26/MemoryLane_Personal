@@ -1,0 +1,127 @@
+#events-section {
+    background: #f9f9f9;
+    width: 77%;
+    height: 90vh;
+    margin: 0 auto;
+    padding: 20px 10px;
+    min-height: 80vh;
+    box-sizing: border-box;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    overflow-y: auto;
+    float: right;
+  overflow-y: auto;
+}
+
+#events-section::-webkit-scrollbar {
+    display: none;
+}
+
+
+.event img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+@media screen and (max-width: 599px) {
+    .event img {
+        height: 250px;
+        object-fit: cover;
+    }
+    #events-section {
+        width: 100%;
+    }
+}
+
+
+.event h1 {
+    font-family: 'Poppins', sans-serif;
+}
+
+.event h2 {
+    color: #ed666f;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+}
+
+.event h3 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    margin: 0.5rem 0;
+}
+
+
+.grid-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+
+/* Original min-width: 1025px → now max-width: 1024px */
+
+@media screen and (max-width: 1024px) {
+    #events-section {
+        padding: 10px 2vw;
+    }
+    .grid-wrapper {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 0.8rem;
+    }
+    #events-section {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #events-section {
+        padding: 5px 0.5vw;
+    }
+    .grid-wrapper {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+    #events-section {
+        width: 100%;
+    }
+}
+
+
+
+article {
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    padding: 1rem;
+    margin: 0;
+    border: 1px solid #ececec;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+article p {
+    font-family: 'Karla', sans-serif;
+    font-size: 0.98rem;
+    color: #333;
+    margin: 0;
+}
+
+
+/* Remove custom grid-area and border rules for simplicity and better responsiveness */
+
+.footer-note {
+    text-align: center;
+    font-family: 'Karla', sans-serif;
+    font-size: 0.9rem;
+    background: white;
+    padding: 1rem;
+    color: black;
+    border-radius: 5px;
+}
+
+.footer-note a {
+    color: inherit;
+    font-weight: 600;
+}

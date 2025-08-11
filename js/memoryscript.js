@@ -82,7 +82,7 @@ const userId = user ? user.id : null;
 console.log("User ID:", userId);
 
 //reverse gecoding to get location name
-/*
+
 document.getElementById('uploadIconButton').addEventListener('click', () => {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -110,7 +110,7 @@ document.getElementById('uploadIconButton').addEventListener('click', () => {
         locationInput.placeholder = 'Geolocation not supported';
     }
 })
-*/
+
 
 document.getElementById('uploadIconButton').addEventListener('click', () => {
     const imagePath = getRandomPicsumUrl();
@@ -134,15 +134,25 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
 
     const tags = document.getElementById('tags').value.split(',').map(tag => tag.trim()).filter(tag => tag !== '');
     let timestampValue = document.getElementById('timestampField').value;
-    const timestamp = timestampValue ? new Date(timestampValue).getTime() : Date.now();
+    let timestamp;
+    if (timestampValue) {
+        // If user provided a date, use it
+        timestamp = new Date(timestampValue).getTime();
+    } else {
+        // If not, use current date (midnight today)
+        const now = new Date();
+        now.setHours(0, 0, 0, 0);
+        timestamp = now.getTime();
+    }
     const imageUrl = document.getElementById('ImageUrl').value;
+    const note = document.getElementById('note').value;
 
     const memories = {
         userId: userId,
         imageUrl: imageUrl,
         tags: tags,
-        location: locationInput.value,
-        timestamp: timestamp
+        timestamp: timestamp,
+        note: note
     };
 
     console.log("Memory Data:", memories);
@@ -194,13 +204,10 @@ async function fetchMemories() {
             .filter(([key, memory]) => memory.userId === userId)
             .map(([key, memory]) => ({ id: key, ...memory }));
 
-        memories = userMemories;
-        console.log("Memories:", memories);
-        //  displayMemories(memories)
-        memories.forEach(memory => {
-            //  addImageToGallery(memory.imageUrl);
-            renderMemories(memories);
-        });
+    memories = userMemories;
+    console.log("Memories:", memories);
+    renderMemories(memories);
+    renderTimeline(memories);
 
     } catch (error) {
         console.error('Error fetching memories:', error);
@@ -529,3 +536,29 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+function renderTimeline(memories) {
+    const timelineContainer = document.querySelector('.timeline');
+    if (!timelineContainer) return;
+    timelineContainer.innerHTML = '';
+    // Only show memories with a non-empty note
+    const memoriesWithNote = memories.filter(m => m.note && m.note.trim() !== '');
+    if (memoriesWithNote.length === 0) {
+        timelineContainer.innerHTML = '<p class="text-center">No timeline notes found.</p>';
+        return;
+    }
+    memoriesWithNote.forEach((memory, idx) => {
+        const item = document.createElement('div');
+        item.className = 'timeline-item ' + (idx % 2 === 0 ? 'left' : 'right');
+        const dateObj = new Date(memory.timestamp);
+        const formattedDate = dateObj.toLocaleDateString('default', { year: 'numeric', month: 'long', day: 'numeric' });
+        item.innerHTML = `
+            <div class="timeline-content">
+                <h3>${formattedDate}</h3>
+                <img src="${memory.imageUrl}" alt="Memory Image">
+                <p>${memory.note}</p>
+            </div>
+        `;
+        timelineContainer.appendChild(item);
+    });
+}
